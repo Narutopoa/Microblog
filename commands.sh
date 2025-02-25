@@ -22,6 +22,7 @@ query = sa.select(User).order_by(User.username.desc())
 db.session.scalars(query).all()
 query = sa.select(User).where(User.username.like('s%'))
 db.session.scalars(query).all()
+db.session.scalar()
 flask db downgrade base
 flask db downgrade head
 from app import app, db
