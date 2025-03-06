@@ -32,4 +32,22 @@ app.app_context().push()
 flask shell
 query = sa.select(Post).order_by(Post.timestamp.desc())
 posts = db.paginate(query, page=1, per_page=20, error_out=False).items
+
+Start Test SMTP Server Locally
 aiosmtpd -n -c aiosmtpd.handlers.Debugging -l localhost:8025 # SMTP test server
+
+Find Text That Needs to be Translated
+pybabel extract -F babel.cfg -k _l -o messages.pot . 
+
+Translate Test to Spanish
+pybabel init -i messages.pot -d app/translations -l es
+
+Make Translations Available to App 
+pybabel compile -d app/translations
+
+Update Translations
+pybabel update -i messages.pot -d app/translations
+
+flask translate init <language-code>
+flask translate update
+flask translate compile
