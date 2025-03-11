@@ -14,3 +14,5 @@ set MAIL_USERNAME=<your-gmail-username>
 set MAIL_PASSWORD=<your-gmail-password>
 
 set MS_TRANSLATOR_KEY=<paste-your-key-here>
+
+set ELASTICSEARCH_URL=http://localhost:9200
