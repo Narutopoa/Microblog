@@ -51,3 +51,34 @@ pybabel update -i messages.pot -d app/translations
 flask translate init <language-code>
 flask translate update
 flask translate compile
+
+https://www.elastic.co/guide/en/elasticsearch/reference/8.17/docker.html
+docker network create elastic
+docker pull docker.elastic.co/elasticsearch/elasticsearch-wolfi:8.17.3
+docker run --name elasticsearch -d --rm -p 9200:9200 --memory="2GB" -e discovery.type=single-node -e xpack.security.enabled=false -t docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+
+
+app.elasticsearch.indices.delete(index='posts')
+
+es.search(index='my_index', query={'match': {'text': 'second'}})
+ObjectApiResponse({
+    'took': 2,
+    'timed_out': False,
+    '_shards': {'total': 1, 'successful': 1, 'skipped': 0, 'failed': 0},
+    'hits': {
+        'total': {'value': 1, 'relation': 'eq'},
+        'max_score': 0.7361701,
+        'hits': [
+            {
+                '_index': 'my_index',
+                '_id': '2',
+                '_score': 0.7361701,
+                '_source': {'text': 'a second test'}
+            }
+        ]
+    }
+})
+es = Elasticsearch('http://localhost:9200')
+es.index(index='my_index', id=1, document={'text': 'this is a test'})
+es.index(index='my_index', id=2, document={'text': 'a second test'})
+es.search(index='my_index', query={'match': {'text': 'this test'}})

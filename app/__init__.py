@@ -1,6 +1,9 @@
 import logging.handlers
-from flask import Flask, request
+from elasticsearch import Elasticsearch
+
 from config import Config
+
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -25,6 +28,8 @@ login.login_message = _l('Please log in to access this page.')
 mail = Mail(app)
 moment = Moment(app)
 babel = Babel(app, locale_selector=get_locale)
+app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
